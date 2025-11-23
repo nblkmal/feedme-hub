@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import OrderControls from './components/OrderControls.vue'
 import OrderList from './components/OrderList.vue'
+import { Analytics } from '@vercel/analytics/vue'
 </script>
 
 <template>
@@ -37,6 +38,7 @@ import OrderList from './components/OrderList.vue'
         <OrderList />
       </main>
     </div>
+    <Analytics />
 
     <!-- Fixed Footer -->
     <footer class="fixed bottom-0 left-0 right-0 py-3 text-center text-sm text-muted-foreground bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-t z-20">
