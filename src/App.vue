@@ -11,7 +11,9 @@ import OrderList from './components/OrderList.vue'
     </header>
 
     <main class="max-w-5xl mx-auto space-y-8">
-      <OrderControls />
+      <div class="flex gap-2 justify-end">
+        <OrderControls />
+      </div>
       <OrderList />
     </main>
   </div>

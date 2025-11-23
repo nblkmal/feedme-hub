@@ -5,6 +5,7 @@ import BotControl from './BotControl.vue'
 import { Badge } from '@/components/ui/badge'
 import { computed } from 'vue'
 import { Clock, Bot, CheckCircle } from 'lucide-vue-next'
+import OrderControls from './OrderControls.vue'
 
 const store = useFeedMeStore()
 
@@ -56,9 +57,12 @@ const botSummary = computed(() => {
             </Badge>
           </li>
           <li v-if="store.pendingOrders.length === 0" key="empty-pending" class="text-muted-foreground text-center py-4">
-            No pending orders
+            No pending orders. Create order now
           </li>
         </TransitionGroup>
+        <div v-if="store.pendingOrders.length === 0" class="flex flex-col justify-center gap-2 px-8">
+          <OrderControls />
+        </div>
       </CardContent>
     </Card>
 
@@ -75,21 +79,21 @@ const botSummary = computed(() => {
             <div class="flex gap-2 text-xs font-normal">
               <Badge variant="outline">Total: {{ botSummary.total }}</Badge>
               <Badge variant="secondary">Idle: {{ botSummary.idle }}</Badge>
-              <Badge variant="default">Cooking: {{ botSummary.processing }}</Badge>
+              <Badge class="bg-green-500 text-white">Cooking: {{ botSummary.processing }}</Badge>
             </div>
           </CardTitle>
-          <BotControl class="pt-2" />
+          <BotControl />
         </CardHeader>
         <CardContent>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[150px] overflow-y-auto">
             <div v-for="bot in store.bots" :key="bot.id" 
                  class="p-2 border rounded-md text-center transition-all duration-300"
-                 :class="bot.status === 'processing' ? 'bg-primary/10 border-primary ring-1 ring-primary/20' : 'bg-muted'">
+                 :class="bot.status === 'processing' ? 'bg-green-50 border-green-500 ring-1 ring-green-500/20 dark:bg-green-950/30' : 'bg-muted'">
               <div class="font-bold">Bot {{ bot.id }}</div>
               <div class="text-xs mt-1">
                 <div v-if="bot.status === 'processing'" class="flex flex-col gap-1">
-                  <span class="text-primary font-semibold">Cooking #{{ bot.currentOrderId }}</span>
-                  <span class="font-mono text-lg font-bold text-primary">{{ bot.remainingTime }}s</span>
+                  <span class="text-green-600 dark:text-green-400 font-semibold">Cooking #{{ bot.currentOrderId }}</span>
+                  <span class="font-mono text-lg font-bold text-green-600 dark:text-green-400">{{ bot.remainingTime }}s</span>
                 </div>
                 <span v-else class="text-muted-foreground">IDLE</span>
               </div>
@@ -106,8 +110,8 @@ const botSummary = computed(() => {
         <CardHeader>
           <CardTitle class="flex justify-between items-center">
             <div class="flex items-center gap-2">
-              <CheckCircle class="h-5 w-5" />
-              <span>COMPLETE</span>
+              <CheckCircle class="h-5 w-5 text-green-600 dark:text-green-400" />
+              <span class="text-green-600 dark:text-green-400 font-semibold">COMPLETE</span>
             </div>
             <Badge variant="outline">{{ store.completeOrders.length }}</Badge>
           </CardTitle>

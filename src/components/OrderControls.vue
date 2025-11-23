@@ -52,62 +52,60 @@ function submitOrder() {
 </script>
 
 <template>
-  <div class="flex gap-2 justify-end">
-    <Button @click="openDialog('normal')" variant="outline">
-      <User class="mr-2 h-4 w-4" />
-      New Normal Order
-    </Button>
-    <Button @click="openDialog('vip')" variant="default">
-      <Crown class="mr-2 h-4 w-4" />
-      New VIP Order
-    </Button>
-  
-    <Dialog v-model:open="isOpen">
-      <DialogContent class="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>New {{ orderType === 'vip' ? 'VIP' : 'Normal' }} Order</DialogTitle>
-          <DialogDescription>
-            Enter your details and select your menu items.
-          </DialogDescription>
-        </DialogHeader>
-        <div class="grid gap-6 py-4">
+  <Button @click="openDialog('normal')" variant="outline">
+    <User class="mr-2 h-4 w-4" />
+    New Normal Order
+  </Button>
+  <Button @click="openDialog('vip')" variant="default">
+    <Crown class="mr-2 h-4 w-4" />
+    New VIP Order
+  </Button>
+
+  <Dialog v-model:open="isOpen">
+    <DialogContent class="sm:max-w-[500px]">
+      <DialogHeader>
+        <DialogTitle>New {{ orderType === 'vip' ? 'VIP' : 'Normal' }} Order</DialogTitle>
+        <DialogDescription>
+          Enter your details and select your menu items.
+        </DialogDescription>
+      </DialogHeader>
+      <div class="grid gap-6 py-4">
+        <div class="grid gap-2">
+          <Label for="name">Name</Label>
+          <Input id="name" v-model="customerName" placeholder="John Doe" />
+        </div>
+        
+        <div class="grid gap-2">
+          <Label>Menu Selection</Label>
           <div class="grid gap-2">
-            <Label for="name">Name</Label>
-            <Input id="name" v-model="customerName" placeholder="John Doe" />
-          </div>
-          
-          <div class="grid gap-2">
-            <Label>Menu Selection</Label>
-            <div class="grid gap-2">
-              <label 
-                v-for="option in menuOptions" 
-                :key="option.value"
-                class="text-sm leading-none font-medium select-none flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-all hover:bg-accent"
-                :class="{ 'border-primary bg-primary/5': selectedItems.includes(option.value) }"
-                @click.prevent="toggleItem(option.value)"
+            <label 
+              v-for="option in menuOptions" 
+              :key="option.value"
+              class="text-sm leading-none font-medium select-none flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-all hover:bg-accent"
+              :class="{ 'border-primary bg-primary/5': selectedItems.includes(option.value) }"
+              @click.prevent="toggleItem(option.value)"
+            >
+              <div 
+                class="aspect-square size-4 shrink-0 rounded-full border shadow-xs flex items-center justify-center transition-colors"
+                :class="selectedItems.includes(option.value) ? 'border-primary bg-primary text-primary-foreground' : 'border-input'"
               >
-                <div 
-                  class="aspect-square size-4 shrink-0 rounded-full border shadow-xs flex items-center justify-center transition-colors"
-                  :class="selectedItems.includes(option.value) ? 'border-primary bg-primary text-primary-foreground' : 'border-input'"
-                >
-                  <Check v-if="selectedItems.includes(option.value)" class="size-3" />
+                <Check v-if="selectedItems.includes(option.value)" class="size-3" />
+              </div>
+              <div class="grid gap-1 font-normal">
+                <div class="font-medium">{{ option.label }}</div>
+                <div class="text-muted-foreground text-xs leading-snug text-balance">
+                  {{ option.description }}
                 </div>
-                <div class="grid gap-1 font-normal">
-                  <div class="font-medium">{{ option.label }}</div>
-                  <div class="text-muted-foreground text-xs leading-snug text-balance">
-                    {{ option.description }}
-                  </div>
-                </div>
-              </label>
-            </div>
+              </div>
+            </label>
           </div>
         </div>
-        <DialogFooter>
-          <Button type="submit" @click="submitOrder" :disabled="!customerName || selectedItems.length === 0">
-            Submit Order
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  </div>
+      </div>
+      <DialogFooter>
+        <Button type="submit" @click="submitOrder" :disabled="!customerName || selectedItems.length === 0">
+          Submit Order
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
 </template>
