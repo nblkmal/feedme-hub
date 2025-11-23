@@ -14,7 +14,6 @@ const formatTime = (date?: Date) => {
   return new Intl.DateTimeFormat('en-US', {
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric',
     hour12: true
   }).format(date)
 }
@@ -28,9 +27,9 @@ const botSummary = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
     <!-- Pending Orders -->
-    <Card class="flex flex-col h-full overflow-hidden">
+    <Card class="flex flex-col overflow-hidden">
       <CardHeader>
         <CardTitle class="flex justify-between items-center">
           <div class="flex items-center gap-2">
@@ -40,7 +39,7 @@ const botSummary = computed(() => {
           <Badge variant="outline">{{ store.pendingOrders.length }}</Badge>
         </CardTitle>
       </CardHeader>
-      <CardContent class="flex-1 overflow-y-auto">
+      <CardContent class="min-h-[100px] max-h-[calc(100vh-400px)] overflow-y-auto">
         <TransitionGroup name="list" tag="ul" class="space-y-2 relative">
           <li v-for="order in store.pendingOrders" :key="order.id" 
               class="p-3 border rounded-md flex justify-between items-center bg-card shadow-sm transition-all duration-300">
@@ -106,7 +105,7 @@ const botSummary = computed(() => {
       </Card>
 
       <!-- Complete Orders -->
-      <Card class="flex flex-col flex-1 overflow-hidden">
+      <Card class="flex flex-col overflow-hidden">
         <CardHeader>
           <CardTitle class="flex justify-between items-center">
             <div class="flex items-center gap-2">
@@ -116,7 +115,7 @@ const botSummary = computed(() => {
             <Badge variant="outline">{{ store.completeOrders.length }}</Badge>
           </CardTitle>
         </CardHeader>
-        <CardContent class="flex-1 overflow-y-auto">
+        <CardContent class="min-h-[100px] max-h-[calc(100vh-400px)] overflow-y-auto">
           <TransitionGroup name="list" tag="ul" class="space-y-2 relative">
             <li v-for="order in store.completeOrders.slice().reverse()" :key="order.id" 
                 class="p-2 border rounded-md flex justify-between items-center opacity-75 transition-all duration-300">
